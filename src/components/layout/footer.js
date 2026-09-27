@@ -10,7 +10,7 @@ export default function Footer() {
         user decisions and does not guarantee that a website is safe or malicious.
       </p>
       <nav className="can-footer-links" aria-label="Footer navigation">
-        <Link href="/periksa">Open demo scan</Link>
+        <Link href="/scan">Open demo scan</Link>
         <Link href="#how-it-works">How it works</Link>
         <Link href="#dimensions">Trust DNA</Link>
         <Link href="/tentang">About CAN</Link>

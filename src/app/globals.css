@@ -672,6 +672,247 @@ a {
   color: var(--site-ink);
 }
 
+.can-scan-shell {
+  width: min(100% - 40px, 1120px);
+  min-height: calc(100vh - 180px);
+  margin: 0 auto;
+  padding: 72px 0 84px;
+}
+
+.can-scan-intro {
+  max-width: 680px;
+}
+
+.can-scan-intro h1 {
+  margin: 0;
+  font-size: clamp(42px, 5vw, 64px);
+  line-height: 1.02;
+}
+
+.can-scan-intro > p:last-child {
+  max-width: 600px;
+  margin: 18px 0 0;
+  color: var(--site-muted);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.can-scan-entry .can-scan-form {
+  margin-top: 32px;
+}
+
+.can-scan-entry .can-form-note,
+.can-scan-entry .can-form-error {
+  max-width: 640px;
+}
+
+.can-scan-layout {
+  display: grid;
+  grid-template-columns: minmax(230px, 0.66fr) minmax(0, 1.34fr);
+  align-items: start;
+  gap: 28px;
+  margin-top: 38px;
+}
+
+.can-scan-target,
+.can-scan-progress {
+  border: 1px solid var(--site-line);
+  background: var(--site-surface);
+}
+
+.can-scan-target {
+  padding: 22px;
+}
+
+.can-scan-label {
+  margin: 0;
+  color: var(--site-muted);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.can-scan-url {
+  margin: 10px 0 0;
+  color: var(--site-ink);
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 15px;
+  font-weight: 650;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.can-scan-notice {
+  display: grid;
+  gap: 6px;
+  margin-top: 22px;
+  border-left: 3px solid var(--site-accent);
+  padding: 4px 0 4px 12px;
+}
+
+.can-scan-notice strong {
+  color: var(--site-ink);
+  font-size: 13px;
+}
+
+.can-scan-notice span {
+  color: var(--site-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.can-scan-cancel {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  margin-top: 18px;
+  color: var(--site-evidence);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.can-scan-cancel:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.can-scan-progress {
+  padding: clamp(20px, 3vw, 30px);
+}
+
+.can-scan-progress-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.can-scan-progress-heading h2 {
+  margin: 7px 0 0;
+  font-size: 25px;
+  line-height: 1.15;
+}
+
+.can-scan-percent {
+  color: var(--site-evidence);
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.can-scan-progress-track {
+  height: 8px;
+  margin-top: 22px;
+  background: var(--site-soft);
+}
+
+.can-scan-progress-track span {
+  display: block;
+  height: 100%;
+  background: var(--site-evidence);
+  transition: width 240ms ease;
+}
+
+.can-scan-stage-list {
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.can-scan-stage {
+  display: grid;
+  min-height: 64px;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  border-top: 1px solid #dce3df;
+  padding: 10px 0;
+}
+
+.can-scan-stage-number {
+  color: var(--site-evidence);
+  font-family: "Cascadia Code", Consolas, monospace;
+  font-size: 11px;
+}
+
+.can-scan-stage-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.can-scan-stage-copy strong {
+  color: var(--site-ink);
+  font-size: 13px;
+}
+
+.can-scan-stage-copy span {
+  color: var(--site-muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.can-scan-stage-state {
+  color: var(--site-muted);
+  font-size: 10px;
+  text-align: right;
+}
+
+.can-scan-stage:has(.can-scan-stage-state) .can-scan-stage-state {
+  max-width: 80px;
+}
+
+.can-scan-complete {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border-top: 1px solid var(--site-line);
+  padding-top: 18px;
+}
+
+.can-scan-complete p {
+  margin: 0;
+  color: var(--site-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+@media (max-width: 760px) {
+  .can-scan-shell {
+    width: min(100% - 36px, 560px);
+    min-height: auto;
+    padding: 56px 0 64px;
+  }
+
+  .can-scan-intro h1 {
+    font-size: clamp(40px, 11vw, 56px);
+  }
+
+  .can-scan-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    margin-top: 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .can-scan-stage {
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .can-scan-stage-state {
+    grid-column: 2;
+    text-align: left;
+  }
+
+  .can-scan-complete {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
 @media (max-width: 900px) {
   .can-hero {
     min-height: auto;

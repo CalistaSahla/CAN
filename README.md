@@ -4,7 +4,7 @@ CAN is an explainable web trust intelligence platform. It helps users understand
 
 ## Project Status
 
-Phase 1 establishes the architecture and backend scaffold. The FastAPI service currently exposes only a health check. Website scanning, demo fixtures, persistence, scoring, and product routes are not implemented yet.
+Phase 1 established the architecture and FastAPI scaffold. Phase 2 delivered the landing page and design system. Phase 3 adds the `/scan` presentation flow. Its progress is simulated, sends no request to the submitted site, and ends at the clearly labeled legacy demo report. The FastAPI service currently exposes only a health check. Live evidence collection, persistence, and scoring are not implemented.
 
 The target MVP is Landing Page, CAN Scan, Trust Report, Trust DNA, and CAN Explain. Trust Gap, CAN Network, CAN Data, CAN Report, CAN History, CAN Academy, and CAN Watch remain stretch goals.
 
@@ -12,7 +12,9 @@ The target MVP is Landing Page, CAN Scan, Trust Report, Trust DNA, and CAN Expla
 
 See [docs/architecture.md](docs/architecture.md) for the component boundaries, API proposal, data model, analysis pipeline, demo mode, and SSRF controls.
 
-The existing Next.js application stays at the repository root. The planned product routes are `/`, `/scan`, and `/report/[id]`. Existing prototype routes are left untouched during Phase 1.
+The existing Next.js application stays at the repository root. Current MVP routes are `/`, `/scan`, and the legacy report preview at `/periksa/hasil`. The target report route `/report/[id]` is reserved for the Trust Report phase. Existing `/periksa` routes remain available for prototype compatibility.
+
+The CAN visual direction and token rationale are documented in [docs/design-system.md](docs/design-system.md).
 
 ## Tech Stack
 
@@ -31,7 +33,7 @@ npm ci
 npm run dev
 ```
 
-Open `http://localhost:3000`.
+Open `http://localhost:3000`. Submit a website URL on the landing page or visit `/scan` directly. The scan is a demonstration only; it does not make network requests to the target website.
 
 ### Backend
 
@@ -49,7 +51,7 @@ The current backend setup check is `http://localhost:8000/health`. Interactive A
 
 MySQL is part of the planned scan/report implementation, but the Phase 1 health check does not require a database. Copy `backend/.env.example` to `backend/.env` when database integration is introduced, then replace its placeholder values locally. Do not commit `.env` files or secrets.
 
-`DEMO_MODE=true` is the planned explicit fixture mode. It is documented but not wired into the service yet; demo results must be visibly labeled and must never be presented as live scans.
+`DEMO_MODE=true` is the planned backend fixture mode and is not wired into the service yet. The current frontend-only scan flow uses `mode=demo`, simulates its progress, and visibly discloses that no live scan occurs. Its report scores are illustrative placeholders.
 
 ## Development Phases
 
@@ -65,34 +67,3 @@ MySQL is part of the planned scan/report implementation, but the Phase 1 health 
 10. Integration
 11. Testing
 12. Competition polish
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

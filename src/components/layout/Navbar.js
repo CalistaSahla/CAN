@@ -9,8 +9,9 @@ const links = [
   { href: '/tentang', label: 'About CAN' },
 ];
 
-export default function Navbar() {
+export default function Navbar({ currentPage = 'home' }) {
   const [open, setOpen] = useState(false);
+  const sectionPrefix = currentPage === 'home' ? '' : '/';
 
   function closeMenu() {
     setOpen(false);
@@ -25,14 +26,18 @@ export default function Navbar() {
 
         <div className="can-nav-links">
           {links.map((link) => (
-            <Link className="can-nav-link" href={link.href} key={link.href}>
+            <Link
+              className="can-nav-link"
+              href={link.href.startsWith('#') ? `${sectionPrefix}${link.href}` : link.href}
+              key={link.href}
+            >
               {link.label}
             </Link>
           ))}
         </div>
 
-        <Link className="can-button" href="/periksa">
-          Open demo scan
+        <Link className="can-button" href="/scan">
+          {currentPage === 'scan' ? 'New demo scan' : 'Open demo scan'}
         </Link>
 
         <button
@@ -53,12 +58,16 @@ export default function Navbar() {
         aria-label="Mobile navigation"
       >
         {links.map((link) => (
-          <Link href={link.href} key={link.href} onClick={closeMenu}>
+          <Link
+            href={link.href.startsWith('#') ? `${sectionPrefix}${link.href}` : link.href}
+            key={link.href}
+            onClick={closeMenu}
+          >
             {link.label}
           </Link>
         ))}
-        <Link className="can-button" href="/periksa" onClick={closeMenu}>
-          Open demo scan
+        <Link className="can-button" href="/scan" onClick={closeMenu}>
+          {currentPage === 'scan' ? 'New demo scan' : 'Open demo scan'}
         </Link>
       </div>
     </header>

@@ -62,7 +62,7 @@ export default function HomePage() {
       return;
     }
 
-    router.push(`/periksa/scan?mode=demo&url=${encodeURIComponent(parsedUrl.href)}`);
+    router.push(`/scan?mode=demo&url=${encodeURIComponent(parsedUrl.href)}`);
   }
 
   return (
