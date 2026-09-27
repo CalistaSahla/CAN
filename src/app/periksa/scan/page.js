@@ -23,15 +23,16 @@ function ScanContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const url = searchParams.get('url') || '';
+  const mode = searchParams.get('mode');
 
   const [progress, setProgress] = useState(0);
   const [step, setStep] = useState(0);
 
   useEffect(() => {
-    if (!url) {
+    if (!url || mode !== 'demo') {
       router.replace('/periksa');
     }
-  }, [url, router]);
+  }, [url, mode, router]);
 
   useEffect(() => {
     if (!url) return;
@@ -71,7 +72,7 @@ function ScanContent() {
     if (!url) return;
 
     const resultTimer = setTimeout(() => {
-      router.push(`/periksa/hasil?url=${encodeURIComponent(url)}`);
+      router.push(`/periksa/hasil?mode=demo&url=${encodeURIComponent(url)}`);
     }, 7000);
 
     return () => clearTimeout(resultTimer);
@@ -88,6 +89,10 @@ function ScanContent() {
   return (
     <>
       <main className="min-h-screen overflow-hidden bg-[#fff9f7] px-5 pb-20 pt-28 text-[#382a26]">
+        <div className="mx-auto mb-6 max-w-2xl border border-[#cbd5d0] bg-white px-4 py-3 text-sm text-[#172d2d]" role="note">
+          <strong>Demo flow.</strong> The progress below is simulated for presentation. No request is sent to the website yet.
+        </div>
+
         {/* DECORATIVE BLOBS */}
 
         <div className="scan-blob scan-blob-one" />
@@ -152,7 +157,7 @@ function ScanContent() {
               <span className="loading-dots">...</span>
             </h1>
 
-            <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-[#806f68]">CAN sedang mengamati berbagai indikator untuk membangun gambaran karakteristik website.</p>
+            <p className="mx-auto mt-4 max-w-xl text-sm leading-6 text-[#806f68]">Previewing the planned checks. Live evidence collection is not connected yet.</p>
           </div>
 
           {/* ===================== */}

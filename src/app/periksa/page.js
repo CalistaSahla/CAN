@@ -27,7 +27,7 @@ export default function PeriksaPage() {
     }
 
     router.push(
-      `/periksa/scan?url=${encodeURIComponent(website)}`
+      `/periksa/scan?mode=demo&url=${encodeURIComponent(website)}`
     );
   }
 

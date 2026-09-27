@@ -3,252 +3,214 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "../components/layout/Navbar";
+import Footer from "../components/layout/footer";
 
 const dimensions = [
-  {
-    icon: "◌",
-    title: "Keamanan",
-    text: "Melihat indikator koneksi dan konfigurasi keamanan.",
-  },
-  {
-    icon: "◯",
-    title: "Identitas",
-    text: "Memahami informasi domain dan identitas website.",
-  },
-  {
-    icon: "◇",
-    title: "Transparansi",
-    text: "Melihat informasi kontak, kebijakan, dan layanan.",
-  },
-  {
-    icon: "↗",
-    title: "Perilaku",
-    text: "Mengamati perilaku website saat diperiksa.",
-  },
-  {
-    icon: "⌘",
-    title: "Jaringan",
-    text: "Melihat hubungan dengan layanan pihak ketiga.",
-  },
-  {
-    icon: "□",
-    title: "Data",
-    text: "Mengidentifikasi data yang berpotensi diminta.",
-  },
+  ["Security", "Signals from HTTPS, TLS, redirects, and security headers."],
+  ["Authenticity", "Domain and identity context that can be observed from a URL."],
+  ["Transparency", "Visible ownership, contact, policy, and service information."],
+  ["Behavior", "Observable response and page behavior during a check."],
+  ["Network", "External domains and services referenced by the website."],
+  ["Data Exposure", "Information categories a page appears to request."],
+];
+
+const process = [
+  "Input URL",
+  "Collect Evidence",
+  "Analyze",
+  "Trust DNA",
+  "CAN Explain",
+  "User Decision",
+];
+
+const explainItems = [
+  ["What", "What was observed on the website?"],
+  ["Why", "Why does that evidence matter?"],
+  ["Evidence", "Which source supports the finding?"],
+  ["Impact", "What should you keep in mind?"],
+  ["Action", "What can you choose to do next?"],
 ];
 
 export default function HomePage() {
   const [url, setUrl] = useState("");
+  const [urlError, setUrlError] = useState("");
   const router = useRouter();
 
   function handleScan(event) {
     event.preventDefault();
-
     const cleanUrl = url.trim();
 
     if (!cleanUrl) {
+      setUrlError("Enter a website address to view the demo scan.");
       return;
     }
 
-    let finalUrl = cleanUrl;
-
-    if (
-      !finalUrl.startsWith("http://") &&
-      !finalUrl.startsWith("https://")
-    ) {
-      finalUrl = `https://${finalUrl}`;
+    let parsedUrl;
+    try {
+      parsedUrl = new URL(
+        /^[a-z][a-z\d+.-]*:\/\//i.test(cleanUrl)
+          ? cleanUrl
+          : `https://${cleanUrl}`,
+      );
+    } catch {
+      setUrlError("That address does not look valid. Check it and try again.");
+      return;
     }
 
-    router.push(
-      `/periksa/scan?url=${encodeURIComponent(finalUrl)}`
-    );
+    if (!['http:', 'https:'].includes(parsedUrl.protocol) || !parsedUrl.hostname.includes('.')) {
+      setUrlError("Use a public website address beginning with http:// or https://.");
+      return;
+    }
+
+    router.push(`/periksa/scan?mode=demo&url=${encodeURIComponent(parsedUrl.href)}`);
   }
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#fff9f7] text-[#382a26]">
+    <main className="can-site">
       <Navbar />
 
-      {/* DECORATION */}
-      <div className="pointer-events-none absolute left-[5%] top-32 h-24 w-24 rounded-full bg-[#f8dce6]/60 blur-2xl" />
+      <section className="can-hero" aria-labelledby="hero-title">
+        <div className="can-hero-copy">
+          <p className="can-kicker">An Explainable Web Trust Intelligence Platform</p>
+          <h1 id="hero-title">
+            Can you trust <em>this?</em>
+          </h1>
+          <p className="can-hero-lede">
+            Paste a URL. Understand what was found, why it matters, and what
+            evidence can help you decide.
+          </p>
 
-      <div className="pointer-events-none absolute right-[8%] top-48 h-32 w-32 rounded-full bg-[#f6c7b5]/50 blur-3xl" />
-
-      <div className="pointer-events-none absolute left-[45%] top-[55%] h-20 w-20 rounded-full bg-[#f8dce6]/40 blur-2xl" />
-
-      {/* HERO */}
-      <section className="relative px-5 pb-20 pt-36 md:pb-28 md:pt-44">
-        <div className="mx-auto max-w-6xl">
-
-          <div className="grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr]">
-
-            {/* LEFT */}
-            <div>
-
-              <div className="inline-flex items-center gap-2 rounded-full border border-[#eadbd5] bg-white/60 px-4 py-2 text-xs text-[#806f68]">
-                <span className="h-2 w-2 rounded-full bg-[#d786a1]" />
-                Understand before you trust
-              </div>
-
-              <h1 className="mt-7 max-w-3xl text-5xl font-semibold leading-[1.05] tracking-tight md:text-7xl">
-                Jangan hanya percaya
-                <br />
-                sebuah website.
-                <br />
-                <span className="text-[#d786a1]">
-                  Pahami itu.
-                </span>
-              </h1>
-
-              <p className="mt-7 max-w-xl text-base leading-7 text-[#806f68] md:text-lg">
-                CAN membantu kamu memahami karakteristik sebuah website
-                melalui berbagai indikator keamanan, identitas, transparansi,
-                perilaku, jaringan, dan data.
-              </p>
-
-              {/* URL SCANNER */}
-              <form
-                onSubmit={handleScan}
-                className="can-glass-strong mt-9 flex max-w-2xl items-center rounded-full border border-white/70 p-2 shadow-sm"
-              >
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#f8dce6] text-[#765549]">
-                  ⌕
-                </div>
-
-                <input
-                  type="text"
-                  value={url}
-                  onChange={(event) => setUrl(event.target.value)}
-                  placeholder="Masukkan URL website..."
-                  className="min-w-0 flex-1 bg-transparent px-4 text-sm text-[#382a26] outline-none placeholder:text-[#a8958c]"
-                />
-
-                <button
-                  type="submit"
-                  className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#765549] text-lg text-white transition hover:bg-[#5b4036]"
-                  aria-label="Periksa website"
-                >
-                  →
-                </button>
-              </form>
-
-              <p className="mt-3 text-xs text-[#a8958c]">
-                Contoh: example.com atau https://example.com
-              </p>
-
-            </div>
-
-            {/* RIGHT VISUAL */}
-            <div className="relative mx-auto w-full max-w-lg">
-
-              <div className="can-glass-strong relative min-h-[430px] overflow-hidden rounded-[38px] border border-white/70 p-7 shadow-sm">
-
-                <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-[#f8dce6]/60 blur-2xl" />
-
-                <div className="absolute -bottom-10 -left-10 h-40 w-40 rounded-full bg-[#f6c7b5]/50 blur-2xl" />
-
-                {/* BROWSER */}
-                <div className="relative mt-10 rounded-[26px] border border-white bg-white/65 p-5 shadow-sm">
-
-                  <div className="flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-[#eadbd5]" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-[#eadbd5]" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-[#eadbd5]" />
-
-                    <div className="ml-3 h-7 flex-1 rounded-full bg-[#f8f1ee]" />
-                  </div>
-
-                  <div className="mt-8 rounded-[22px] bg-[#fff9f7] p-6">
-
-                    <div className="h-4 w-28 rounded-full bg-[#eadbd5]" />
-
-                    <div className="mt-4 h-3 w-44 rounded-full bg-[#f1e5e0]" />
-
-                    <div className="mt-7 grid grid-cols-2 gap-3">
-                      <div className="h-20 rounded-2xl bg-[#f8dce6]/60" />
-                      <div className="h-20 rounded-2xl bg-[#fbe5dc]/70" />
-                    </div>
-
-                    <div className="mt-3 h-20 rounded-2xl bg-[#e7f0e9]/70" />
-
-                  </div>
-                </div>
-
-                {/* FLOATING QUESTIONS */}
-                <div className="absolute left-4 top-16 rounded-2xl border border-white bg-white/75 px-4 py-3 text-xs text-[#765549] shadow-sm">
-                  Aman kah?
-                </div>
-
-                <div className="absolute right-3 top-28 rounded-2xl border border-white bg-white/75 px-4 py-3 text-xs text-[#765549] shadow-sm">
-                  Domain siapa?
-                </div>
-
-                <div className="absolute bottom-20 left-4 rounded-2xl border border-white bg-white/75 px-4 py-3 text-xs text-[#765549] shadow-sm">
-                  Ada pihak ketiga?
-                </div>
-
-                <div className="absolute bottom-8 right-4 rounded-2xl border border-white bg-white/75 px-4 py-3 text-xs text-[#765549] shadow-sm">
-                  Data apa yang diminta?
-                </div>
-
-              </div>
-
-              <div className="absolute -right-2 -top-5 text-xl text-[#d786a1]">
-                ✦
-              </div>
-
-              <div className="absolute -bottom-3 left-8 text-sm text-[#d786a1]">
-                ✦
-              </div>
-
-            </div>
-
-          </div>
+          <form className="can-scan-form" onSubmit={handleScan} noValidate>
+            <label className="sr-only" htmlFor="website-url">Website URL</label>
+            <input
+              id="website-url"
+              type="text"
+              inputMode="url"
+              autoComplete="url"
+              spellCheck="false"
+              value={url}
+              onChange={(event) => {
+                setUrl(event.target.value);
+                setUrlError("");
+              }}
+              placeholder="Enter a website URL"
+              aria-invalid={Boolean(urlError)}
+              aria-describedby={urlError ? "url-error" : "url-note"}
+            />
+            <button className="can-button" type="submit">View demo scan</button>
+          </form>
+          {urlError ? (
+            <p id="url-error" className="can-form-error" role="alert">{urlError}</p>
+          ) : (
+            <p id="url-note" className="can-form-note">
+              Try a public URL, such as example.com. This opens the current demo flow.
+            </p>
+          )}
+          <p className="can-hero-footnote">
+            Demo only. This preview uses illustrative results, not a live website analysis.
+            CAN provides context from available evidence and never guarantees safety.
+          </p>
         </div>
+
+        <aside className="can-report-preview" aria-label="Illustration of a CAN report structure">
+          <div className="can-preview-topline">
+            <p className="can-preview-caption">CAN report structure</p>
+            <p className="can-preview-sample">Illustration</p>
+          </div>
+          <div className="can-preview-body">
+            <p className="can-preview-url-label">Submitted website</p>
+            <p className="can-preview-url">[website URL]</p>
+            <div className="can-preview-confidence">
+              <div className="can-preview-score" aria-label="Illustrative score placeholder">
+                <strong>--</strong>
+                <span>NOT A RESULT</span>
+              </div>
+              <div className="can-preview-summary">
+                <p>Trust Confidence</p>
+                <strong>Based on available evidence</strong>
+              </div>
+            </div>
+            <p className="can-preview-evidence-title">Evidence record</p>
+            <ul className="can-preview-evidence">
+              <li><span className="can-evidence-mark" aria-hidden="true" />Source and check type</li>
+              <li><span className="can-evidence-mark" aria-hidden="true" />Observed status and timestamp</li>
+              <li><span className="can-evidence-mark" aria-hidden="true" />Explanation linked to a finding</li>
+            </ul>
+          </div>
+        </aside>
       </section>
 
-      {/* DIMENSIONS */}
-      <section className="px-5 pb-24">
-        <div className="mx-auto max-w-6xl">
-
-          <div className="mb-8 max-w-2xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#a8958c]">
-              What CAN looks at
-            </p>
-
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
-              Tidak hanya satu indikator.
-            </h2>
-
-            <p className="mt-3 text-sm leading-6 text-[#806f68]">
-              CAN melihat beberapa dimensi untuk memberikan konteks yang lebih
-              lengkap mengenai sebuah website.
-            </p>
+      <section className="can-section can-process-section" id="how-it-works" aria-labelledby="process-title">
+        <div className="can-section-inner">
+          <div className="can-section-heading">
+            <p className="can-kicker">From URL to an informed choice</p>
+            <h2 id="process-title">A clear path from evidence to decision.</h2>
           </div>
-
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            {dimensions.map((item) => (
-              <div
-                key={item.title}
-                className="can-glass-strong rounded-[26px] p-6 shadow-sm"
-              >
-                <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#f8dce6] text-[#765549]">
-                  {item.icon}
-                </div>
-
-                <h3 className="mt-5 text-lg font-semibold">
-                  {item.title}
-                </h3>
-
-                <p className="mt-2 text-sm leading-6 text-[#806f68]">
-                  {item.text}
-                </p>
-              </div>
+          <ol className="can-process-list">
+            {process.map((step, index) => (
+              <li className="can-process-step" key={step}>
+                <span>0{index + 1}</span>
+                <strong>{step}</strong>
+              </li>
             ))}
-          </div>
-
+          </ol>
         </div>
       </section>
 
+      <section className="can-section" id="dimensions" aria-labelledby="dimensions-title">
+        <div className="can-section-inner can-dimensions-layout">
+          <div className="can-section-heading">
+            <p className="can-kicker">Trust DNA</p>
+            <h2 id="dimensions-title">Six dimensions. Each tied to observable signals.</h2>
+            <p>
+              The profile groups evidence into the six dimensions in the CAN proposal.
+              A missing signal stays missing; it is not treated as a positive result.
+            </p>
+          </div>
+          <ol className="can-dimensions-list">
+            {dimensions.map(([title, text], index) => (
+              <li className="can-dimension-row" key={title}>
+                <span className="can-dimension-index">0{index + 1}</span>
+                <strong>{title}</strong>
+                <span>{text}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className="can-section can-trust-section" id="trust-model" aria-labelledby="trust-title">
+        <div className="can-section-inner can-trust-grid">
+          <div>
+            <p className="can-kicker">Trust is not just a score</p>
+            <h2 id="trust-title">A number without its evidence is not the whole story.</h2>
+            <p className="can-trust-intro">
+              CAN is an interpretation layer, not an antivirus or an absolute verdict.
+              It connects findings to their evidence and gives people room to decide.
+            </p>
+          </div>
+          <ol className="can-explain-list">
+            {explainItems.map(([label, text]) => (
+              <li key={label}>
+                <strong>{label}</strong>
+                <span>{text}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+
+      <section className="can-section" aria-label="Start a demo scan">
+        <div className="can-section-inner can-final-cta">
+          <p>
+            CAN does not guarantee that a website is safe or malicious. Results depend on
+            the evidence available at the time of analysis.
+          </p>
+          <a className="can-button" href="#website-url">Enter a URL</a>
+        </div>
+      </section>
+
+      <Footer />
     </main>
   );
 }

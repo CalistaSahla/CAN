@@ -50,24 +50,12 @@ const tabs = [
     active: true,
   },
   {
-    name: "Trust Gap",
-    href: "/periksa/hasil/trust-gap",
-  },
-  {
     name: "Trust DNA",
     href: "/periksa/hasil/trust-dna",
   },
   {
     name: "CAN Explain",
     href: "/periksa/hasil/explain",
-  },
-  {
-    name: "CAN Network",
-    href: "/periksa/hasil/network",
-  },
-  {
-    name: "CAN Data",
-    href: "/periksa/hasil/data",
   },
 ];
 
@@ -116,16 +104,20 @@ function HasilContent() {
             </h1>
 
             <p className="mt-2 text-sm text-[#a8958c]">
-              Pemeriksaan selesai · 27 September 2026
+              Demonstration data. No live analysis has been performed.
             </p>
 
           </div>
 
-          <div className="rounded-full border border-[#eadbd5] bg-white/60 px-4 py-2 text-xs text-[#806f68]">
-            CAN Analysis
+          <div className="rounded-full border border-[#cbd5d0] bg-white px-4 py-2 text-xs text-[#536765]">
+            Demo data
           </div>
 
         </div>
+
+        <p className="mt-8 border border-[#cbd5d0] bg-white px-4 py-3 text-sm text-[#172d2d]" role="note">
+          <strong>Demo report.</strong> The scores, descriptions, and evidence shown here are illustrative placeholders, not findings about this website.
+        </p>
 
         {/* TRUST SCORE */}
         <section className="can-glass-strong mt-10 overflow-hidden rounded-[32px] p-7 shadow-sm md:p-10">
@@ -193,7 +185,7 @@ function HasilContent() {
             {tabs.map((tab) => (
               <Link
                 key={tab.name}
-                href={`${tab.href}?url=${encodeURIComponent(website)}`}
+                href={`${tab.href}?mode=demo&url=${encodeURIComponent(website)}`}
                 className={`rounded-full px-5 py-2.5 text-sm transition ${
                   tab.active
                     ? "bg-[#765549] font-medium text-white shadow-sm"
@@ -260,13 +252,7 @@ function HasilContent() {
                 </p>
 
                 <Link
-                  href={
-                    item.name === "Jaringan"
-                      ? `/periksa/hasil/network?url=${encodeURIComponent(website)}`
-                      : item.name === "Data"
-                        ? `/periksa/hasil/data?url=${encodeURIComponent(website)}`
-                        : `/periksa/hasil/explain?url=${encodeURIComponent(website)}`
-                  }
+                  href={`/periksa/hasil/explain?mode=demo&url=${encodeURIComponent(website)}`}
                   className="mt-5 inline-block text-xs font-medium text-[#765549]"
                 >
                   Pahami lebih lanjut →
@@ -294,13 +280,12 @@ function HasilContent() {
             </h2>
 
             <p className="mt-3 text-sm leading-7 text-white/75">
-              Trust Confidence membantu memberikan gambaran awal. CAN Explain,
-              Trust Gap, Network, dan Data membantu memahami alasan di balik
-              hasil tersebut.
+              Trust Confidence is only a starting point. CAN Explain connects a finding
+              to its evidence, impact, and possible action.
             </p>
 
             <Link
-              href={`/periksa/hasil/explain?url=${encodeURIComponent(website)}`}
+              href={`/periksa/hasil/explain?mode=demo&url=${encodeURIComponent(website)}`}
               className="mt-6 inline-flex rounded-full bg-white px-5 py-3 text-sm font-medium text-[#382a26]"
             >
               Lihat penjelasan →
@@ -324,7 +309,7 @@ function HasilContent() {
             </p>
 
             <Link
-              href={`/periksa/hasil/trust-dna?url=${encodeURIComponent(website)}`}
+              href={`/periksa/hasil/trust-dna?mode=demo&url=${encodeURIComponent(website)}`}
               className="mt-6 inline-flex rounded-full border border-[#eadbd5] bg-white/70 px-5 py-3 text-sm font-medium text-[#382a26]"
             >
               Buka Trust DNA →
