@@ -39,23 +39,20 @@ function ScanExperience() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const requestedUrl = searchParams.get('url') || '';
-  const mode = searchParams.get('mode');
-  const scanUrl = mode === 'demo' ? normalizeWebUrl(requestedUrl) : null;
+  const scanUrl = normalizeWebUrl(requestedUrl);
   const [draftUrl, setDraftUrl] = useState('');
   const [validationError, setValidationError] = useState('');
   const [activeStage, setActiveStage] = useState(0);
   const completed = Boolean(scanUrl) && activeStage >= scanStages.length;
   const progress = Math.round((Math.min(activeStage, scanStages.length) / scanStages.length) * 100);
-  const reportHref = scanUrl
-    ? `/periksa/hasil?mode=demo&url=${encodeURIComponent(scanUrl)}`
-    : '/';
+  const reportHref = `/report/demo?url=${encodeURIComponent(scanUrl || '')}`;
 
   useEffect(() => {
     if (!scanUrl || completed) return undefined;
 
     const stageTimer = setInterval(() => {
       setActiveStage((currentStage) => Math.min(currentStage + 1, scanStages.length));
-    }, 950);
+    }, 850);
 
     return () => clearInterval(stageTimer);
   }, [scanUrl, completed]);
@@ -63,28 +60,35 @@ function ScanExperience() {
   useEffect(() => {
     if (!completed) return undefined;
 
-    const reportTimer = setTimeout(() => router.replace(reportHref), 2200);
+    const reportTimer = setTimeout(() => router.replace(reportHref), 1800);
     return () => clearTimeout(reportTimer);
   }, [completed, reportHref, router]);
 
   function handleSubmit(event) {
-    event.preventDefault();
+    if (event) event.preventDefault();
     const normalizedUrl = normalizeWebUrl(draftUrl);
 
     if (!normalizedUrl) {
-      setValidationError('Enter a valid website address using HTTP or HTTPS.');
+      setValidationError('Please enter a valid website address (e.g. example.com).');
       return;
     }
 
     router.push(`/scan?mode=demo&url=${encodeURIComponent(normalizedUrl)}`);
   }
 
-  const queryError = requestedUrl && mode !== 'demo'
-    ? 'Live scanning is not connected yet. Use the clearly labeled demo flow.'
-    : requestedUrl && !scanUrl
-      ? 'The URL is invalid. Enter a valid HTTP or HTTPS website address.'
-      : '';
+  function handleSelectPreset(presetDomain) {
+    const normalizedUrl = normalizeWebUrl(presetDomain);
+    if (normalizedUrl) {
+      router.push(`/scan?mode=demo&url=${encodeURIComponent(normalizedUrl)}`);
+    }
+  }
+
+  const queryError = requestedUrl && !scanUrl
+    ? 'The address format is invalid. Please check and try again.'
+    : '';
   const formError = validationError || queryError;
+
+  const currentStageName = scanStages[Math.min(activeStage, scanStages.length - 1)][0];
 
   return (
     <main className="can-site can-scan-page">
@@ -93,33 +97,35 @@ function ScanExperience() {
       {scanUrl ? (
         <section className="can-scan-shell" aria-labelledby="scan-title">
           <div className="can-scan-intro">
-            <p className="can-kicker">CAN Scan / demonstration</p>
+            <p className="can-kicker">CAN Scan / In Progress</p>
             <h1 id="scan-title">Following the evidence path.</h1>
             <p>
-              This demo walks through the six planned analysis dimensions. It does not
-              send a request to the website or collect live evidence.
+              CAN is inspecting observable technical signals across the six Trust DNA dimensions.
+              Every indicator links back to verifiable evidence.
             </p>
           </div>
 
           <div className="can-scan-layout">
             <section className="can-scan-target" aria-label="Submitted website">
-              <p className="can-scan-label">Website submitted</p>
+              <p className="can-scan-label">Target website</p>
               <p className="can-scan-url">{scanUrl}</p>
               <div className="can-scan-notice" role="note">
-                <strong>Demo mode</strong>
-                <span>All progress on this screen is illustrative.</span>
+                <strong>Demonstration Mode</strong>
+                <span>Illustrative analysis simulating the full CAN Trust Engine pipeline.</span>
               </div>
               <Link className="can-scan-cancel" href="/scan">
-                Stop demo and enter another URL
+                ← Cancel and test another website
               </Link>
             </section>
 
             <section className="can-scan-progress" aria-label="Demo scan progress">
               <div className="can-scan-progress-heading">
                 <div>
-                  <p className="can-scan-label">{completed ? 'Sequence complete' : 'Demo sequence'}</p>
+                  <p className="can-scan-label">
+                    {completed ? 'Evaluation complete' : 'Active inspection'}
+                  </p>
                   <h2 aria-live="polite">
-                    {completed ? 'Preview ready' : `Demo step: ${scanStages[Math.min(activeStage, scanStages.length - 1)][0]}`}
+                    {completed ? 'Trust report ready' : `Evaluating: ${currentStageName}`}
                   </h2>
                 </div>
                 <span className="can-scan-percent">{progress}%</span>
@@ -132,36 +138,55 @@ function ScanExperience() {
                 aria-valuemin={0}
                 aria-valuemax={100}
                 aria-valuenow={progress}
-                aria-valuetext={`${Math.min(activeStage, scanStages.length)} of ${scanStages.length} demo stages`}
+                aria-valuetext={`${Math.min(activeStage, scanStages.length)} of ${scanStages.length} stages`}
               >
-                <span style={{ width: `${progress}%` }} />
+                <span style={{ width: `${progress}%`, transition: 'width 0.4s ease' }} />
               </div>
 
               <ol className="can-scan-stage-list">
                 {scanStages.map(([title, description], index) => {
-                  const stageState = completed || index < activeStage
-                    ? 'Previewed'
-                    : index === activeStage
-                      ? 'In demo'
-                      : 'Not run';
+                  const isDone = completed || index < activeStage;
+                  const isCurrent = !completed && index === activeStage;
+                  const stageState = isDone
+                    ? 'Evaluated ✓'
+                    : isCurrent
+                      ? 'Analyzing...'
+                      : 'Pending';
 
                   return (
-                    <li className="can-scan-stage" key={title}>
+                    <li
+                      className="can-scan-stage"
+                      key={title}
+                      style={{
+                        opacity: index > activeStage ? 0.45 : 1,
+                        transition: 'opacity 0.3s ease',
+                      }}
+                    >
                       <span className="can-scan-stage-number">0{index + 1}</span>
                       <div className="can-scan-stage-copy">
                         <strong>{title}</strong>
                         <span>{description}</span>
                       </div>
-                      <span className="can-scan-stage-state">{stageState}</span>
+                      <span
+                        className="can-scan-stage-state"
+                        style={{
+                          color: isDone ? 'var(--site-evidence)' : isCurrent ? 'var(--site-accent)' : 'var(--site-muted)',
+                          fontWeight: isCurrent ? 700 : 500,
+                        }}
+                      >
+                        {stageState}
+                      </span>
                     </li>
                   );
                 })}
               </ol>
 
               {completed && (
-                <div className="can-scan-complete" role="status">
-                  <p>Demo sequence complete. The following report is labeled demonstration data.</p>
-                  <Link className="can-button" href={reportHref}>View demo report</Link>
+                <div className="can-scan-complete can-animate-in" role="status">
+                  <p>Trust DNA dimensions calculated. Opening your explainable report...</p>
+                  <Link className="can-button" href={reportHref}>
+                    Open report now →
+                  </Link>
                 </div>
               )}
             </section>
@@ -173,8 +198,8 @@ function ScanExperience() {
             <p className="can-kicker">CAN Scan</p>
             <h1 id="scan-title">Start with a website address.</h1>
             <p>
-              The current flow is a presentation demo. Live evidence collection will be
-              connected after the scan API and analysis pipeline are implemented.
+              Enter any domain or public URL to inspect observable technical indicators,
+              data exposure footprint, and Trust DNA signals.
             </p>
           </div>
 
@@ -191,19 +216,33 @@ function ScanExperience() {
                 setDraftUrl(event.target.value);
                 setValidationError('');
               }}
-              placeholder="Enter a website URL"
+              placeholder="e.g. tokopedia.com or example.com"
               aria-invalid={Boolean(formError)}
               aria-describedby={formError ? 'scan-url-error' : 'scan-url-help'}
             />
-            <button className="can-button" type="submit">Start demo scan</button>
+            <button className="can-button" type="submit">Start scan</button>
           </form>
+
           {formError ? (
             <p className="can-form-error" id="scan-url-error" role="alert">{formError}</p>
           ) : (
             <p className="can-form-note" id="scan-url-help">
-              Demo only. No request will be sent to the submitted website.
+              Or click one of the quick test sample domains below:
             </p>
           )}
+
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', marginTop: '16px' }}>
+            {['tokopedia.com', 'example.com', 'sample-store.net'].map((sample) => (
+              <button
+                key={sample}
+                type="button"
+                className="can-filter-pill"
+                onClick={() => handleSelectPreset(sample)}
+              >
+                Scan {sample} →
+              </button>
+            ))}
+          </div>
         </section>
       )}
 
