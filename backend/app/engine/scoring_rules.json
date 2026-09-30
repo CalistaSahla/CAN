@@ -1,0 +1,46 @@
+{
+  "version": "1.0.0",
+  "confidence_bands": {
+    "high_minimum_coverage_percent": 80,
+    "medium_minimum_coverage_percent": 50
+  },
+  "dimensions": {
+    "security": {
+      "explanation": "Indicator score from the transport and response-header controls observed during this check.",
+      "factors": [
+        {"evidence_kind": "https_enabled", "value_key": "enabled", "mode": "equals", "expected": true, "weight": 20},
+        {"evidence_kind": "tls_certificate_valid", "value_key": "verified", "mode": "equals", "expected": true, "weight": 20},
+        {"evidence_kind": "strict_transport_security", "value_key": "present", "mode": "equals", "expected": true, "weight": 15},
+        {"evidence_kind": "content_security_policy", "value_key": "present", "mode": "equals", "expected": true, "weight": 15},
+        {"evidence_kind": "x_content_type_options", "value_key": "present", "mode": "equals", "expected": true, "weight": 10},
+        {"evidence_kind": "referrer_policy", "value_key": "present", "mode": "equals", "expected": true, "weight": 10},
+        {"evidence_kind": "permissions_policy", "value_key": "present", "mode": "equals", "expected": true, "weight": 10}
+      ]
+    },
+    "authenticity": {
+      "explanation": "Ownership and brand affiliation need a verifiable source that is not connected in this MVP.",
+      "factors": []
+    },
+    "transparency": {
+      "explanation": "Indicator score from contact and privacy-policy links visible in the initial HTML only.",
+      "factors": [
+        {"evidence_kind": "contact_link", "value_key": "visible_in_initial_html", "mode": "equals", "expected": true, "weight": 50},
+        {"evidence_kind": "privacy_policy_link", "value_key": "visible_in_initial_html", "mode": "equals", "expected": true, "weight": 50}
+      ]
+    },
+    "behavior": {
+      "explanation": "Indicator score from the final HTTP response observed after a bounded redirect check.",
+      "factors": [
+        {"evidence_kind": "http_response", "value_key": "status_code", "mode": "range", "minimum": 200, "maximum": 399, "weight": 100}
+      ]
+    },
+    "network": {
+      "explanation": "External domains are listed as context. Their presence alone is not treated as risk or scored.",
+      "factors": []
+    },
+    "data_exposure": {
+      "explanation": "Observed form categories are reported as context. Requested data is not scored as good or bad without user and site context.",
+      "factors": []
+    }
+  }
+}
