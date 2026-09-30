@@ -2,42 +2,50 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
-const links = [
-  { href: '#how-it-works', label: 'How it works' },
-  { href: '#dimensions', label: 'Trust DNA' },
-  { href: '/tentang', label: 'About CAN' },
+const navItems = [
+  { href: '/#how-it-works', label: 'How it works' },
+  { href: '/#dimensions', label: 'Trust DNA' },
+  { href: '/academy', label: 'Academy' },
+  { href: '/history', label: 'History' },
+  { href: '/about', label: 'About CAN' },
 ];
 
-export default function Navbar({ currentPage = 'home' }) {
+export default function Navbar({ currentPage }) {
   const [open, setOpen] = useState(false);
-  const sectionPrefix = currentPage === 'home' ? '' : '/';
+  const pathname = usePathname();
 
   function closeMenu() {
     setOpen(false);
   }
 
+  const isScan = currentPage === 'scan' || pathname === '/scan';
+
   return (
     <header className="can-header">
       <nav className="can-nav" aria-label="Main navigation">
-        <Link className="can-wordmark" href="/" aria-label="CAN home">
+        <Link className="can-wordmark" href="/" aria-label="CAN home" onClick={closeMenu}>
           CAN<span>.</span>
         </Link>
 
         <div className="can-nav-links">
-          {links.map((link) => (
-            <Link
-              className="can-nav-link"
-              href={link.href.startsWith('#') ? `${sectionPrefix}${link.href}` : link.href}
-              key={link.href}
-            >
-              {link.label}
-            </Link>
-          ))}
+          {navItems.map((item) => {
+            const isActive = pathname === item.href;
+            return (
+              <Link
+                className={`can-nav-link ${isActive ? 'can-nav-link-active' : ''}`}
+                href={item.href}
+                key={item.href}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </div>
 
-        <Link className="can-button" href="/scan">
-          {currentPage === 'scan' ? 'New demo scan' : 'Open demo scan'}
+        <Link className="can-button" href="/scan" onClick={closeMenu}>
+          {isScan ? 'New scan' : 'Scan a website'}
         </Link>
 
         <button
@@ -47,7 +55,7 @@ export default function Navbar({ currentPage = 'home' }) {
           aria-controls="can-mobile-menu"
           onClick={() => setOpen((isOpen) => !isOpen)}
         >
-          {open ? 'Close menu' : 'Menu'}
+          {open ? 'Close' : 'Menu'}
         </button>
       </nav>
 
@@ -57,17 +65,17 @@ export default function Navbar({ currentPage = 'home' }) {
         data-open={open}
         aria-label="Mobile navigation"
       >
-        {links.map((link) => (
+        {navItems.map((item) => (
           <Link
-            href={link.href.startsWith('#') ? `${sectionPrefix}${link.href}` : link.href}
-            key={link.href}
+            href={item.href}
+            key={item.href}
             onClick={closeMenu}
           >
-            {link.label}
+            {item.label}
           </Link>
         ))}
         <Link className="can-button" href="/scan" onClick={closeMenu}>
-          {currentPage === 'scan' ? 'New demo scan' : 'Open demo scan'}
+          {isScan ? 'New scan' : 'Scan a website'}
         </Link>
       </div>
     </header>

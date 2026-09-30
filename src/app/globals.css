@@ -172,6 +172,24 @@ a {
   color: var(--site-ink);
 }
 
+.can-nav-link-active {
+  color: var(--site-ink);
+  font-weight: 600;
+  position: relative;
+}
+
+.can-nav-link-active::after {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--site-accent);
+}
+
 .can-button {
   display: inline-flex;
   min-height: 48px;
@@ -1268,3 +1286,582 @@ a {
 .can-fade-up {
   animation: can-fade-up 0.5s ease-out;
 }
+
+/* ── About page ── */
+
+.can-about-shell {
+  width: min(100% - 40px, 1296px);
+  margin: 0 auto;
+  padding: 72px 0 96px;
+}
+
+.can-about-header {
+  max-width: 780px;
+  padding-bottom: 64px;
+  border-bottom: 1px solid var(--site-line);
+  margin-bottom: 64px;
+}
+
+.can-about-header h1 {
+  margin: 16px 0 24px;
+  font-size: clamp(36px, 5vw, 64px);
+  line-height: 1.08;
+}
+
+.can-about-lede {
+  font-size: 17px;
+  line-height: 1.7;
+  color: var(--site-muted);
+  max-width: 660px;
+}
+
+.can-about-section {
+  padding-bottom: 64px;
+  border-bottom: 1px solid var(--site-line);
+  margin-bottom: 64px;
+}
+
+.can-principles-list {
+  list-style: none;
+  padding: 0;
+  margin: 32px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.can-principle-item {
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.can-principle-number {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--site-evidence);
+  padding-top: 3px;
+  font-family: "Aptos", "Segoe UI", sans-serif;
+}
+
+.can-principle-item strong {
+  display: block;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--site-ink);
+  margin-bottom: 6px;
+  font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+}
+
+.can-principle-item p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--site-muted);
+}
+
+.can-about-dark {
+  background: var(--site-ink);
+  color: var(--site-soft);
+  border-radius: 4px;
+  border-bottom: none;
+  padding: 56px;
+  margin-left: -56px;
+  margin-right: -56px;
+}
+
+.can-about-dark h2 {
+  color: #fff;
+  font-size: clamp(24px, 3.5vw, 40px);
+  margin: 16px 0 20px;
+  line-height: 1.15;
+}
+
+.can-about-dark p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--site-soft);
+  max-width: 520px;
+}
+
+.can-about-dark-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 56px;
+  align-items: start;
+}
+
+.can-not-list {
+  list-style: none;
+  padding: 0;
+  margin: 16px 0 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.can-not-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--site-soft);
+}
+
+.can-not-list li::before {
+  content: "×";
+  color: var(--site-accent);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.can-about-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.can-about-cta p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--site-muted);
+  max-width: 480px;
+}
+
+/* ── Glassmorphism utility (legacy compat) ── */
+.can-glass-strong {
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+@media (max-width: 768px) {
+  .can-about-dark {
+    margin-left: -20px;
+    margin-right: -20px;
+    padding: 36px 20px;
+  }
+
+  .can-about-dark-inner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .can-about-cta {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ── Universal Footer ── */
+.can-footer {
+  border-top: 1px solid var(--site-line);
+  background: var(--site-paper);
+  padding: 72px 0 44px;
+  position: relative;
+  z-index: 10;
+}
+
+.can-footer-inner {
+  width: min(100% - 40px, 1296px);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+
+.can-footer-brand {
+  max-width: 440px;
+}
+
+.can-footer-desc {
+  margin: 16px 0 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--site-muted);
+}
+
+.can-footer-badge {
+  display: inline-block;
+  margin-top: 18px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--site-evidence);
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 9999px;
+  background: rgba(36, 103, 94, 0.08);
+  border: 1px solid rgba(36, 103, 94, 0.15);
+}
+
+.can-footer-columns {
+  display: flex;
+  gap: clamp(36px, 6vw, 72px);
+  flex-wrap: wrap;
+}
+
+.can-footer-col-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--site-muted);
+  margin: 0 0 16px;
+}
+
+.can-footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.can-footer-links a {
+  font-size: 14px;
+  color: var(--site-ink);
+  transition: color 150ms ease, transform 150ms ease;
+  display: inline-block;
+}
+
+.can-footer-links a:hover {
+  color: var(--site-accent);
+  transform: translateX(3px);
+}
+
+.can-footer-bottom {
+  width: min(100% - 40px, 1296px);
+  margin: 52px auto 0;
+  padding-top: 24px;
+  border-top: 1px solid rgba(203, 213, 208, 0.5);
+  font-size: 13px;
+  color: var(--site-muted);
+}
+
+/* ── Micro-animations ── */
+@keyframes can-pulse-subtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.02); }
+}
+
+@keyframes can-scan-beam {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(1000%); }
+}
+
+@keyframes can-slide-down {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.can-animate-in {
+  animation: can-fade-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.can-stagger-1 { animation-delay: 60ms; }
+.can-stagger-2 { animation-delay: 120ms; }
+.can-stagger-3 { animation-delay: 180ms; }
+.can-stagger-4 { animation-delay: 240ms; }
+
+/* ── Academy & History Shared Shell ── */
+.can-sub-shell {
+  width: min(100% - 40px, 1296px);
+  margin: 0 auto;
+  padding: 64px 0 96px;
+}
+
+.can-sub-header {
+  max-width: 800px;
+  margin-bottom: 48px;
+}
+
+.can-sub-header h1 {
+  font-size: clamp(40px, 5.5vw, 68px);
+  line-height: 1.05;
+  margin: 12px 0 20px;
+}
+
+.can-sub-header h1 em {
+  font-style: italic;
+  color: var(--site-accent);
+}
+
+.can-sub-lede {
+  font-size: 17px;
+  line-height: 1.65;
+  color: var(--site-muted);
+  max-width: 620px;
+}
+
+/* Category pills */
+.can-filter-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+
+.can-filter-pill {
+  border: 1px solid var(--site-line);
+  background: var(--site-surface);
+  color: var(--site-muted);
+  padding: 8px 18px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 600;
+  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.can-filter-pill:hover {
+  border-color: var(--site-accent);
+  color: var(--site-ink);
+  transform: translateY(-1px);
+}
+
+.can-filter-pill[data-active="true"] {
+  background: var(--site-ink);
+  color: var(--site-surface);
+  border-color: var(--site-ink);
+}
+
+/* Academy lesson cards */
+.can-lesson-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 24px;
+}
+
+.can-lesson-card {
+  border: 1px solid var(--site-line);
+  background: var(--site-surface);
+  border-radius: 20px;
+  padding: 28px;
+  transition: all 220ms cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.can-lesson-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 32px -12px rgba(23, 45, 45, 0.08);
+  border-color: #b5c4be;
+}
+
+.can-lesson-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.can-lesson-badge {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: rgba(36, 103, 94, 0.08);
+  color: var(--site-evidence);
+}
+
+.can-lesson-number {
+  font-family: monospace;
+  font-size: 13px;
+  color: var(--site-muted);
+}
+
+.can-lesson-title {
+  font-family: "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  font-size: 24px;
+  line-height: 1.25;
+  margin: 0 0 12px;
+  color: var(--site-ink);
+}
+
+.can-lesson-summary {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--site-muted);
+  flex-grow: 1;
+}
+
+.can-lesson-footer {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--site-soft);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.can-lesson-expand {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 650;
+  color: var(--site-accent);
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: transform 140ms ease;
+}
+
+.can-lesson-expand:hover {
+  transform: translateX(3px);
+}
+
+.can-lesson-detail {
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 14px;
+  background: var(--site-soft);
+  font-size: 13px;
+  line-height: 1.65;
+  animation: can-slide-down 0.25s ease-out;
+}
+
+.can-lesson-detail h4 {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--site-ink);
+  margin: 0 0 8px;
+}
+
+/* History Ledger Styles */
+.can-history-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--site-line);
+  padding-bottom: 24px;
+}
+
+.can-history-search {
+  flex: 1;
+  min-width: 260px;
+  max-width: 440px;
+  position: relative;
+}
+
+.can-history-input {
+  width: 100%;
+  height: 44px;
+  padding: 0 16px 0 40px;
+  border: 1px solid var(--site-line);
+  border-radius: 9999px;
+  background: var(--site-surface);
+  color: var(--site-ink);
+  font-size: 14px;
+  transition: border-color 140ms ease;
+}
+
+.can-history-input:focus {
+  border-color: var(--site-accent);
+  outline: none;
+}
+
+.can-history-search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--site-muted);
+  pointer-events: none;
+}
+
+.can-history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.can-history-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 22px 28px;
+  border: 1px solid var(--site-line);
+  border-radius: 18px;
+  background: var(--site-surface);
+  transition: all 180ms cubic-bezier(0.16, 1, 0.3, 1);
+  flex-wrap: wrap;
+}
+
+.can-history-row:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 24px -8px rgba(23, 45, 45, 0.06);
+  border-color: #b5c4be;
+}
+
+.can-history-domain {
+  font-family: "Iowan Old Style", Georgia, serif;
+  font-size: 21px;
+  font-weight: 600;
+  color: var(--site-ink);
+  margin: 0;
+}
+
+.can-history-time {
+  font-size: 12px;
+  color: var(--site-muted);
+  margin-top: 4px;
+}
+
+.can-history-badges {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.can-score-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.can-score-badge[data-level="high"] {
+  background: rgba(36, 103, 94, 0.1);
+  color: var(--site-evidence);
+}
+
+.can-score-badge[data-level="medium"] {
+  background: rgba(198, 78, 54, 0.1);
+  color: var(--site-accent);
+}
+
+.can-history-empty {
+  text-align: center;
+  padding: 72px 20px;
+  border: 1px dashed var(--site-line);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.4);
+}
+

@@ -1,4 +1,11 @@
 import Link from 'next/link';
+import Navbar from '../../components/layout/Navbar';
+import Footer from '../../components/layout/footer';
+
+export const metadata = {
+  title: "Tentang CAN — Can You Trust This?",
+  description: "Platform explainable web trust intelligence yang membantu pengguna memahami karakteristik website.",
+};
 
 const principles = [
   {
@@ -25,52 +32,76 @@ const principles = [
 
 export default function TentangPage() {
   return (
-    <main className="min-h-screen bg-[#fff9f7] px-5 pb-20 pt-32 text-[#382a26]">
-      <div className="mx-auto max-w-5xl">
-        <p className="text-sm font-medium text-[#c8879d]">TENTANG CAN</p>
+    <main className="can-site">
+      <Navbar currentPage="about" />
 
-        <h1 className="mt-3 max-w-4xl text-4xl font-semibold tracking-tight md:text-6xl">
-          Don&apos;t just trust a website.
-          <br />
-          <span className="text-[#d786a1]">Understand it.</span>
-        </h1>
-
-        <p className="mt-7 max-w-2xl text-base leading-8 text-[#806f68]">
-          CAN atau <strong>Can You Trust This?</strong> adalah platform explainable web trust intelligence yang membantu pengguna memahami karakteristik sebuah website berdasarkan berbagai indikator.
-        </p>
-
-        <div className="mt-14 grid gap-5 md:grid-cols-2">
-          {principles.map((item) => (
-            <div
-              key={item.number}
-              className="can-glass-strong rounded-[28px] p-7 shadow-sm"
-            >
-              <span className="text-sm text-[#c8879d]">{item.number}</span>
-
-              <h2 className="mt-4 text-2xl font-semibold">{item.title}</h2>
-
-              <p className="mt-3 text-sm leading-7 text-[#806f68]">{item.text}</p>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-8 rounded-[30px] bg-[#765549] p-8 text-white shadow-sm md:p-10">
-          <p className="text-xs uppercase tracking-[0.2em] text-[#f8dce6]">Our approach</p>
-
-          <h2 className="mt-4 max-w-2xl text-3xl font-semibold">Dari “aman atau tidak?” menjadi “apa yang sebenarnya saya percayai?”</h2>
-
-          <p className="mt-4 max-w-2xl text-sm leading-7 text-white/75">
-            CAN dirancang sebagai lapisan pemahaman di antara pengguna dan website. Fokusnya bukan memberikan jaminan keamanan absolut, melainkan membuat indikator teknis lebih mudah dipahami.
+      <div className="can-about-shell">
+        <header className="can-about-header">
+          <p className="can-kicker">Tentang CAN</p>
+          <h1>
+            Memahami sebuah website<br />
+            bukan berarti mempercayainya secara buta.
+          </h1>
+          <p className="can-about-lede">
+            CAN — <strong>Can You Trust This?</strong> — adalah platform explainable web trust intelligence.
+            CAN mengumpulkan evidence yang dapat diamati dari sebuah website dan menjelaskan artinya
+            secara transparan, sehingga kamu dapat mengambil keputusan yang terinformasi.
           </p>
+        </header>
 
-          <Link
-            href="/periksa"
-            className="rounded-full border border-[#eadbd5] bg-white/80 px-5 py-3 text-sm font-medium text-[#382a26]"
-          >
-            Coba CAN →
+        <section className="can-about-section" aria-labelledby="principles-title">
+          <h2 id="principles-title" className="can-section-label">Empat prinsip utama kami</h2>
+          <ol className="can-principles-list">
+            {principles.map((item) => (
+              <li key={item.number} className="can-principle-item">
+                <span className="can-principle-number">{item.number}</span>
+                <div className="can-principle-content">
+                  <h3>{item.title}</h3>
+                  <p>{item.text}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        <section className="can-about-dark" aria-labelledby="approach-title">
+          <div className="can-about-dark-inner">
+            <div>
+              <p className="can-kicker-light">Pendekatan Kami</p>
+              <h2 id="approach-title">
+                Dari &ldquo;aman atau tidak?&rdquo;<br />
+                ke &ldquo;apa bukti yang tersedia?&rdquo;
+              </h2>
+              <p className="can-about-dark-body">
+                Keamanan web modern terlalu rumit untuk disederhanakan menjadi satu skor biner yang buram.
+                CAN bertindak sebagai lapisan interpretasi yang mengubah header teknis, riwayat domain,
+                dan pola pelacakan menjadi penjelasan manusiawi.
+              </p>
+            </div>
+            <div>
+              <p className="can-kicker-light">Apa yang BUKAN CAN</p>
+              <ul className="can-not-list">
+                <li>Bukan antivirus atau malware remover</li>
+                <li>Bukan jaminan mutlak keselamatan atau bahaya</li>
+                <li>Bukan pengganti peringatan keamanan bawaan browser</li>
+                <li>Bukan algoritma yang mengambil keputusan menggantikanmu</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <div className="can-about-cta">
+          <p>
+            CAN menyajikan indikator objektif dan konteks teknis.
+            Keputusan akhir tetap berada sepenuhnya di tangan pengguna.
+          </p>
+          <Link className="can-button" href="/scan">
+            Mulai periksa website →
           </Link>
         </div>
       </div>
+
+      <Footer />
     </main>
   );
 }
