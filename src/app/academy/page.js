@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Navbar from '../../components/layout/Navbar';
-import Footer from '../../components/layout/footer';
+import Footer from '../../components/layout/Footer';
 
 const lessons = [
   {
@@ -92,13 +92,13 @@ export default function AcademyPage() {
     <main className="can-site can-academy-page">
       <Navbar currentPage="academy" />
 
-      <div className="can-sub-shell">
-        <header className="can-sub-header">
+      <div className="can-about-shell">
+        <header className="can-about-header">
           <p className="can-kicker">CAN Academy / Web Literacy</p>
           <h1>
             Decode what the web <em>is telling you.</em>
           </h1>
-          <p className="can-sub-lede">
+          <p className="can-about-lede">
             Short, evidence-based modules designed to help you understand technical web indicators,
             privacy risks, domain identity, and network footprints — without the fear-mongering.
           </p>

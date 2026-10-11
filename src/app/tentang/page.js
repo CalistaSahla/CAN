@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Navbar from '../../components/layout/Navbar';
-import Footer from '../../components/layout/footer';
+import Footer from '../../components/layout/Footer';
 
 export const metadata = {
   title: "Tentang CAN — Can You Trust This?",

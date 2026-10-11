@@ -4,7 +4,8 @@ import { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Navbar from '../../components/layout/Navbar';
-import Footer from '../../components/layout/footer';
+import Footer from '../../components/layout/Footer';
+import { validatePublicUrl } from '../../lib/validation';
 
 const scanStages = [
   ['Security', 'HTTPS, TLS, redirects, and security headers'],
@@ -16,23 +17,8 @@ const scanStages = [
 ];
 
 function normalizeWebUrl(value) {
-  const trimmedValue = value.trim();
-  if (!trimmedValue) return null;
-
-  try {
-    const parsedUrl = new URL(
-      /^[a-z][a-z\d+.-]*:\/\//i.test(trimmedValue)
-        ? trimmedValue
-        : `https://${trimmedValue}`,
-    );
-
-    if (!['http:', 'https:'].includes(parsedUrl.protocol)) return null;
-    if (!parsedUrl.hostname.includes('.')) return null;
-
-    return parsedUrl.href;
-  } catch {
-    return null;
-  }
+  const validation = validatePublicUrl(value);
+  return validation.valid ? validation.url : null;
 }
 
 function ScanExperience() {
@@ -155,7 +141,7 @@ function ScanExperience() {
 
                   return (
                     <li
-                      className="can-scan-stage"
+                      className={`can-scan-stage can-animate-in can-stagger-${(index % 4) + 1}`}
                       key={title}
                       style={{
                         opacity: index > activeStage ? 0.45 : 1,

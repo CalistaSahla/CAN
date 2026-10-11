@@ -3,7 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "../components/layout/Navbar";
-import Footer from "../components/layout/footer";
+import Footer from "../components/layout/Footer";
+import { validatePublicUrl } from "../lib/validation";
 
 const dimensions = [
   ["Security", "Signals from HTTPS, TLS, redirects, and security headers."],
@@ -38,31 +39,13 @@ export default function HomePage() {
 
   function handleScan(event) {
     event.preventDefault();
-    const cleanUrl = url.trim();
-
-    if (!cleanUrl) {
-      setUrlError("Enter a website address to view the demo scan.");
+    const validation = validatePublicUrl(url);
+    if (!validation.valid) {
+      setUrlError(validation.error);
       return;
     }
 
-    let parsedUrl;
-    try {
-      parsedUrl = new URL(
-        /^[a-z][a-z\d+.-]*:\/\//i.test(cleanUrl)
-          ? cleanUrl
-          : `https://${cleanUrl}`,
-      );
-    } catch {
-      setUrlError("That address does not look valid. Check it and try again.");
-      return;
-    }
-
-    if (!['http:', 'https:'].includes(parsedUrl.protocol) || !parsedUrl.hostname.includes('.')) {
-      setUrlError("Use a public website address beginning with http:// or https://.");
-      return;
-    }
-
-    router.push(`/scan?mode=demo&url=${encodeURIComponent(parsedUrl.href)}`);
+    router.push(`/scan?mode=demo&url=${encodeURIComponent(validation.url)}`);
   }
 
   return (

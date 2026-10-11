@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Navbar from '../../components/layout/Navbar';
-import Footer from '../../components/layout/footer';
+import Footer from '../../components/layout/Footer';
 
 const initialHistory = [
   {
@@ -73,13 +73,13 @@ export default function HistoryPage() {
     <main className="can-site can-history-page">
       <Navbar currentPage="history" />
 
-      <div className="can-sub-shell">
-        <header className="can-sub-header">
+      <div className="can-about-shell">
+        <header className="can-about-header">
           <p className="can-kicker">Scan History / Ledger</p>
           <h1>
             Previously evaluated <em>websites.</em>
           </h1>
-          <p className="can-sub-lede">
+          <p className="can-about-lede">
             An auditable log of domains analyzed by CAN. Review past Trust DNA snapshots,
             confidence scores, and verifiable technical indicators.
           </p>

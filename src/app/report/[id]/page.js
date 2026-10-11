@@ -11,6 +11,8 @@ import {
   confidenceLabelText,
   severityLabel,
 } from '../../../lib/can-api';
+import Navbar from '../../../components/layout/Navbar';
+import Footer from '../../../components/layout/Footer';
 
 // ──────────────────────────────────────────────────────────
 // Utilities
@@ -78,7 +80,7 @@ function ConfidenceRing({ coverage, label }) {
 // ──────────────────────────────────────────────────────────
 // Trust DNA dimension card
 // ──────────────────────────────────────────────────────────
-function DnaCard({ dimension }) {
+function DnaCard({ dimension, index = 0 }) {
   const { dimension: key, score, confidence, explanation, observed_factors, total_factors } = dimension;
   const label = dimensionLabel(key);
   const description = dimensionDescription(key);
@@ -87,7 +89,7 @@ function DnaCard({ dimension }) {
   const color = scoreColor(score);
 
   return (
-    <article className="can-dna-card" aria-labelledby={`dna-${key}`}>
+    <article className={`can-dna-card can-animate-in can-stagger-${(index % 4) + 1}`} aria-labelledby={`dna-${key}`}>
       <div className="can-dna-card-top">
         <div className="can-dna-ring-wrap" aria-hidden="true">
           <svg width="84" height="84" viewBox="0 0 84 84">
@@ -209,7 +211,7 @@ function EvidenceRow({ item }) {
 function ReportSkeleton() {
   return (
     <main className="can-site">
-
+      <Navbar currentPage="report" />
       <div className="can-report-shell" aria-busy="true" aria-label="Loading report">
         <div className="can-report-header">
           <div className="can-skeleton can-skeleton--line" style={{ width: '60%', height: 14 }} />
@@ -218,7 +220,7 @@ function ReportSkeleton() {
         <div className="can-skeleton can-skeleton--block" style={{ height: 180, marginTop: 32 }} />
         <div className="can-skeleton can-skeleton--block" style={{ height: 320, marginTop: 24 }} />
       </div>
-
+      <Footer />
     </main>
   );
 }
@@ -229,7 +231,7 @@ function ReportSkeleton() {
 function ReportError({ message, scanId }) {
   return (
     <main className="can-site">
-
+      <Navbar currentPage="report" />
       <div className="can-report-shell">
         <div className="can-report-header">
           <p className="can-kicker" style={{ color: 'var(--site-accent)' }}>Report unavailable</p>
@@ -248,7 +250,7 @@ function ReportError({ message, scanId }) {
           )}
         </div>
       </div>
-
+      <Footer />
     </main>
   );
 }
@@ -320,7 +322,7 @@ export default function ReportPage() {
 
   return (
     <main className="can-site">
-
+      <Navbar currentPage="report" />
 
       <div className="can-report-shell">
 
@@ -493,8 +495,8 @@ export default function ReportPage() {
               Absence is not treated as a positive or negative result.
             </p>
             <div className="can-dna-grid">
-              {sortedDna.map((dim) => (
-                <DnaCard key={dim.dimension} dimension={dim} />
+              {sortedDna.map((dim, idx) => (
+                <DnaCard key={dim.dimension} dimension={dim} index={idx} />
               ))}
             </div>
           </section>
@@ -567,8 +569,7 @@ export default function ReportPage() {
         </footer>
 
       </div>
-
-
+      <Footer />
     </main>
   );
 }
