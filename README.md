@@ -2,6 +2,12 @@
 
 > An explainable web trust intelligence prototype that turns observable website signals into evidence-based context.
 
+**Live demo:** [can-rho-eight.vercel.app](https://can-rho-eight.vercel.app/)
+
+![CAN homepage preview](public/can-preview.png)
+
+The live demo presents illustrative results, not live website analysis.
+
 CAN helps people inspect a website without reducing the result to an unexplained “safe” or “unsafe” label. It presents available evidence across six dimensions, explains why each signal matters, and makes the limits of the analysis visible.
 
 ## Overview
@@ -54,14 +60,6 @@ This repository contains a working prototype with an explicit demo mode and a Fa
 | `/academy` | Educational modules about web trust signals |
 | `/about` | English project and principles page |
 | `/tentang` | Indonesian project and principles page |
-
-## Preview
-
-Live demo: [can-rho-eight.vercel.app](https://can-rho-eight.vercel.app/)
-
-![CAN homepage preview](public/can-preview.png)
-
-The deployed frontend currently presents the demo flow with illustrative results, not a live website analysis.
 
 ## Tech stack
 
